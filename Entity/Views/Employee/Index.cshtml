@@ -1,0 +1,93 @@
+﻿@* @model Entity.Pagination.PaginationSet<Entity.Services.ViewModels.EmployeeViewExport> *@
+@model IEnumerable<EmployeeViewExport>
+@using Entity.Data.Request
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3 class="text-center text-success">@TempData["Success"]</h3>
+<h3 class="text-center text-danger">@TempData["ErrorLIne"]</h3>
+<p class="text-center text-danger">@TempData["Error"]</p>
+<div class="row">
+    <div class="col-1">
+        <a class="btn btn-primary" asp-controller="Employee" asp-action="Create">Create</a>
+    </div>
+    <div class="col-1">
+        @Html.ActionLink("Export", "ExportToExcel", new {keyWord = @Context.Request.Query["keyWord"] }, new { @class = "btn btn-primary" })
+    </div>
+    <div class="col-1"><a class="btn btn-primary" asp-action="ImportData" asp-controller="Employee"> ImportData</a></div>
+    <div class="col-2" style="position:absolute;right:170px">
+        <form asp-controller="Employee" asp-action="Index" asp-action="ExportToExcel" method="get" class="my-2 mx-2">
+            <div class="input-group">
+                <input name="keyWord" class="form-control" id="inputSearch" aria-describedby="inputSearchComment" aria-label="Search">
+                <button style="height:30px;text-align:center" class="btn btn-outline-secondary" type="submit" id="inputSearch">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Họ Tên</th>
+            <th>Ngày Sinh</th>
+            <th>Số Điện Thoại</th>
+            <th>Dân Tộc</th>
+            <th>Nghề Nghiệp</th>
+            <th>Căn Cước Công Dân</th>
+            <th>Tỉnh</th>
+            <th>Huyện</th>
+            <th>Xã/Phường</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdentityCardNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DistrictName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WardName)
+                </td>
+                <td>
+                    @Html.ActionLink("Cập nhập", "Edit", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                    @Html.ActionLink("Xóa", "Details", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="text-right">
+    @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {pageNumber = page,
+    keyWord = @Context.Request.Query["keyWord"],
+    }),
+    new X.PagedList.Web.Common.PagedListRenderOptions {
+    LiElementClasses = new string[] {"page-item"},
+    PageClasses = new string[] { "page-link" }
+    })
+</div>
