@@ -1,6 +1,6 @@
 ﻿using Entity.Constants;
+using Entity.Data.Request;
 using Entity.Services.Interface;
-using Entity.Services.ViewModels;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +11,7 @@ public class DegreeController : Controller
 {
     private readonly IDegreeService _degreeService;
     private readonly IValidator<DegreeViewModel> _validator;
+
     public DegreeController(IDegreeService degreeService, IValidator<DegreeViewModel> validator)
     {
         _validator = validator;
@@ -18,7 +19,7 @@ public class DegreeController : Controller
     }
 
     public async Task<IActionResult> Index(string keyWord = "", int? pageNumber = null)
-    
+
     {
         var result = await _degreeService.GetListDegree(keyWord, pageNumber);
         return PartialView(result);

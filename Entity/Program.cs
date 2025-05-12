@@ -1,11 +1,11 @@
 using Entity.Repository.Repositories;
 using Entity.Services.Interface;
-using Entity.Services.Validation;
-using Entity.Services.ViewModels;
 using Entity.Services;
-using Entity.Data_Access;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
+using Entity.Data.Entity.DataAccess;
+using Entity.Data.Request;
+using Entity.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 

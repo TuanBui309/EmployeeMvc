@@ -1,6 +1,6 @@
 ﻿using Entity.Constants;
-using Entity.Services.ViewModels;
-using Entity.Models;
+using Entity.Data.Entity;
+using Entity.Data.Request;
 
 namespace Entity.Services.Interface;
 

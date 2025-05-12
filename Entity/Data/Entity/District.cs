@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Entity.Models;
+namespace Entity.Data.Entity;
 
 public class District
 {

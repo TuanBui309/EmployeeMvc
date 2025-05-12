@@ -1,13 +1,13 @@
-﻿using Entity.Data_Access;
-using Entity.Repository.Interface;
+﻿using Entity.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml.Table;
 using OfficeOpenXml;
 using System.Linq.Expressions;
-using Entity.Services.ViewModels;
-using Entity.Services.Utilities;
 using X.PagedList;
-using Entity.Models;
+using Entity.Data.Entity;
+using Entity.Data.Entity.DataAccess;
+using Entity.Data.Request;
+using Entity.Util.Utilities;
 
 namespace Entity.Repository.Infrastructure;
 

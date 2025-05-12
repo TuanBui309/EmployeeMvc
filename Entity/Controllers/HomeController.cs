@@ -1,4 +1,4 @@
-﻿using Entity.Models;
+﻿using Entity.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

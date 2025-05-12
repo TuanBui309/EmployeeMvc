@@ -3,9 +3,9 @@ using FluentValidation;
 using FluentValidation.Results;
 using Entity.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Entity.Services.ViewModels;
 using System.Text;
 using System.Diagnostics;
+using Entity.Data.Request;
 
 namespace Entity.Controllers;
 public class EmployeeController : Controller
@@ -109,8 +109,8 @@ public class EmployeeController : Controller
     [HttpGet, ActionName("ExportToExcel")]
     public async Task<IActionResult> ExportToExcel(string keyWord = "")
     {
-        var exportbytes = await _employeeService.DownloadReport(keyWord);
-        return File(exportbytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "employee.xlsx");
+        var export = await _employeeService.DownloadReport(keyWord);
+        return File(export, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "employee.xlsx");
     }
 
     public IActionResult ImportData() => View();
@@ -157,7 +157,7 @@ public class EmployeeController : Controller
                 TempData["Success"] = "Added data from the file successfully";
                 return RedirectToAction("");
             }
-            TempData["Error"] = "file is requied";
+            TempData["Error"] = "file is required";
             return View();
         }
         catch (Exception)
@@ -173,7 +173,6 @@ public class EmployeeController : Controller
         return await _employeeService.GetAllEmployee(keyWord);
     }
 
-
     [HttpGet("GetTime")]
     public async Task<IActionResult> GetTime()
     {
@@ -185,7 +184,7 @@ public class EmployeeController : Controller
     }
 
     [HttpGet("GetEmployeeById")]
-    public async Task<IActionResult> GetEmplyeeById(int id)
+    public async Task<IActionResult> GetEmployeeById(int id)
     {
         return await _employeeService.GetEmployeeById(id);
     }

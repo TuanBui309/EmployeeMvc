@@ -1,5 +1,4 @@
-﻿
-namespace Entity.Services.ViewModels;
+﻿namespace Entity.Data.Request;
 
 public class EmployeeViewModel
 {

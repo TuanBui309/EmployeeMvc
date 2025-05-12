@@ -1,4 +1,4 @@
-﻿namespace Entity.Pagination;
+﻿namespace Entity.Util.Pagination;
 
 public class PaginationSet<T>
 {
@@ -9,7 +9,7 @@ public class PaginationSet<T>
     {
         get
         {
-            return (Items != null) ? Items.Count() : 0;
+            return Items != null ? Items.Count() : 0;
         }
     }
     public int? TotalPages { get; set; }

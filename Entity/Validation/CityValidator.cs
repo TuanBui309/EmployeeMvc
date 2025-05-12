@@ -1,6 +1,6 @@
-﻿using Entity.Services.ViewModels;
+﻿using Entity.Data.Request;
 using FluentValidation;
-namespace Entity.Services.Validation;
+namespace Entity.Validation;
 
 public class CityValidator : AbstractValidator<CityViewModel>
 {

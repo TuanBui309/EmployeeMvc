@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entity.Services.Interface;
-using Entity.Services.ViewModels;
 using Entity.Constants;
+using Entity.Data.Request;
 
 namespace Entity.Controllers;
 

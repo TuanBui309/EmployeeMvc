@@ -1,8 +1,8 @@
 ﻿using Entity.Constants;
-using Entity.Models;
+using Entity.Data.Entity;
+using Entity.Data.Request;
 using Entity.Repository.Repositories;
 using Entity.Services.Interface;
-using Entity.Services.ViewModels;
 
 namespace Entity.Services;
 

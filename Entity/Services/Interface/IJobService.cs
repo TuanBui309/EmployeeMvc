@@ -1,5 +1,6 @@
 ﻿using Entity.Constants;
-using Entity.Services.ViewModels;
+using Entity.Data.Request;
+
 namespace Entity.Services.Interface;
 
 public interface IJobService

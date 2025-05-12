@@ -1,6 +1,5 @@
-﻿using Entity.Models;
-using Microsoft.EntityFrameworkCore;
-namespace Entity.Data_Access
+﻿using Microsoft.EntityFrameworkCore;
+namespace Entity.Data.Entity.DataAccess
 {
     public class EntityDbContext : DbContext
     {
@@ -84,9 +83,7 @@ namespace Entity.Data_Access
                     .HasForeignKey(x => x.EmployeeId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_employee_id");
-
             });
-
         }
     }
 }

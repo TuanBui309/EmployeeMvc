@@ -1,4 +1,4 @@
-﻿namespace Entity.Models;
+﻿namespace Entity.Data.Entity;
 
 public class Employee
 {

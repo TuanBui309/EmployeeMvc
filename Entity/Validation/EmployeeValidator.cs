@@ -1,10 +1,10 @@
 ﻿using Entity.Constants;
+using Entity.Data.Request;
 using Entity.Repository.Repositories;
-using Entity.Services.Utilities;
-using Entity.Services.ViewModels;
+using Entity.Util.Utilities;
 using FluentValidation;
 
-namespace Entity.Services.Validation;
+namespace Entity.Validation;
 
 public class EmployeeValidator : AbstractValidator<EmployeeViewModel>
 {

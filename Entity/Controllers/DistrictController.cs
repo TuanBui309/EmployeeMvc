@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entity.Services.Interface;
-using Entity.Services.ViewModels;
 using FluentValidation;
 using FluentValidation.Results;
 using Entity.Constants;
-
+using Entity.Data.Request;
 
 namespace Entity.Controllers;
 
@@ -123,9 +122,10 @@ public class DistrictController : Controller
     {
         return await _districtService.GetSingleDistrictById(id);
     }
+
     [HttpGet("GetMultiDistrictByCondition")]
-    public async Task<IActionResult> GetMultiDistrictByCondition(int proviceId)
+    public async Task<IActionResult> GetMultiDistrictByCondition(int provinceId)
     {
-        return await _districtService.GetMultiDistrictByCondition(proviceId);
+        return await _districtService.GetMultiDistrictByCondition(provinceId);
     }
 }

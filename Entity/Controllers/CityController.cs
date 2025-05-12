@@ -1,12 +1,11 @@
 ﻿using Entity.Constants;
+using Entity.Data.Request;
 using Entity.Services.Interface;
-using Entity.Services.ViewModels;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Entity.Controllers;
-
 public class CityController : Controller
 {
     private readonly ICityService _cityService;
@@ -128,6 +127,4 @@ public class CityController : Controller
     {
         return await _cityService.GetAllCityByCondition(CityId, name);
     }
-
-
 }

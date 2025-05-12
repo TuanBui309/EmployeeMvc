@@ -1,5 +1,4 @@
-﻿
-namespace Entity.Services.ViewModels;
+﻿namespace Entity.Data.Request;
 
 public class DegreeViewModel
 {
@@ -16,6 +15,7 @@ public class DegreeViewModel
     public string DateOfExpiry { get; set; } = "";
 
 }
+
 public class DegreeView
 {
     public int Id { get; set; }

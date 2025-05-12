@@ -1,5 +1,5 @@
-﻿using Entity.Models;
-using Entity.Services.ViewModels;
+﻿using Entity.Data.Entity;
+using Entity.Data.Request;
 using System.Linq.Expressions;
 namespace Entity.Repository.Interface;
 

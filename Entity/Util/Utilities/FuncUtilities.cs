@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Entity.Services.Utilities;
+namespace Entity.Util.Utilities;
 
 public static class FuncUtilities
 {
@@ -13,21 +13,21 @@ public static class FuncUtilities
         {
             if (!string.IsNullOrEmpty(date))
             {
-                d = DateTime.ParseExact(date, formatDate, System.Globalization.CultureInfo.InvariantCulture);
+                d = DateTime.ParseExact(date, formatDate, CultureInfo.InvariantCulture);
             }
             else
             {
-                d = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"), "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                d = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"), "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             }
             return d;
         }
         if (!string.IsNullOrEmpty(date))
         {
-            d = DateTime.ParseExact(date, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            d = DateTime.ParseExact(date, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         }
         else
         {
-            d = DateTime.ParseExact(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"), "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            d = DateTime.ParseExact(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         }
         return d;
     }
@@ -37,11 +37,11 @@ public static class FuncUtilities
         DateTime d;
         if (!string.IsNullOrEmpty(date))
         {
-            d = DateTime.ParseExact(date, formatDate, System.Globalization.CultureInfo.InvariantCulture);
+            d = DateTime.ParseExact(date, formatDate, CultureInfo.InvariantCulture);
         }
         else
         {
-            d = DateTime.ParseExact(DateTime.Now.ToString("dd/MM/yyyy"), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            d = DateTime.ParseExact(DateTime.Now.ToString("dd/MM/yyyy"), "dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
         return d;
     }
@@ -58,7 +58,7 @@ public static class FuncUtilities
                    formatDate,
                    CultureInfo.InvariantCulture,
                    DateTimeStyles.None
-                   , out _) && FuncUtilities.ConvertStringToDate(DateOfBirth) <= DateTime.Now)
+                   , out _) && ConvertStringToDate(DateOfBirth) <= DateTime.Now)
         {
             return true;
         }

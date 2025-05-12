@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entity.Services.Interface;
-using Entity.Services.ViewModels;
 using FluentValidation;
 using FluentValidation.Results;
 using Entity.Constants;
+using Entity.Data.Request;
 
 namespace Entity.Controllers;
 

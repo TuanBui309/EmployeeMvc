@@ -1,5 +1,5 @@
 ﻿using X.PagedList;
-namespace Entity.Pagination;
+namespace Entity.Util.Pagination;
 
 public static class GetPagination
 {
