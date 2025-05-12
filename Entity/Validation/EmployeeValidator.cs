@@ -25,7 +25,7 @@ public class EmployeeValidator : AbstractValidator<EmployeeViewModel>
 		_nationRepository = nationRepository;
 
 		RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required")
-			.MaximumLength(Validations.MaxLenghtName).WithMessage("Name can not over 250 characters");
+			.MaximumLength(Validations.NameMaxLength).WithMessage("Name can not over 250 characters");
 		RuleFor(x => x.DateOfBirth).NotEmpty().WithMessage("Date of birth is required").Must(FuncUtilities.BeAValidDate).WithMessage("Invalid date (dd/MM/yyyy)!");
 		RuleFor(x => x.Age).NotEmpty().WithMessage("Age is required")
 			.GreaterThan(Validations.MinAge).WithMessage("Age must be greater than 0")

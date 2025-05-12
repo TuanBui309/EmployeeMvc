@@ -7,6 +7,7 @@ using Entity.Data.Request;
 
 namespace Entity.Controllers;
 
+[Route("[controller]")]
 public class DistrictController : Controller
 {
     private readonly IValidator<DistrictViewModel> _validator;
@@ -24,10 +25,11 @@ public class DistrictController : Controller
         return PartialView(result);
     }
 
+    [HttpGet("Details/{id}")]
     public async Task<IActionResult> Details(int id)
     {
         var result = await _districtService.GetSingleDistrict(id);
-        if (result.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (result.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
             return RedirectToAction("");
@@ -35,16 +37,17 @@ public class DistrictController : Controller
         return View(result.Content);
     }
 
+    [HttpGet("Create")]
     public IActionResult Create() => View();
 
-    [HttpPost]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create(DistrictViewModel model)
     {
         ValidationResult result = await _validator.ValidateAsync(model);
         if (result.IsValid)
         {
             var employee = await _districtService.InsertDistrict(model);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
                 return RedirectToAction("");
@@ -62,10 +65,11 @@ public class DistrictController : Controller
         }
     }
 
+    [HttpGet("Edit/{id}")]
     public async Task<IActionResult> Edit(int id)
     {
         var results = await _districtService.GetSingleDistrict(id);
-        if (results.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (results.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
             return RedirectToAction("");
@@ -73,14 +77,14 @@ public class DistrictController : Controller
         return View(results.Content);
     }
 
-    [HttpPost]
+    [HttpPost("Edit")]
     public async Task<IActionResult> Edit(DistrictViewModel model)
     {
         ValidationResult result = await _validator.ValidateAsync(model);
         if (result.IsValid)
         {
             var employee = await _districtService.UpdateDistrict(model);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
                 return RedirectToAction("");
@@ -102,7 +106,7 @@ public class DistrictController : Controller
     public async Task<IActionResult> DeleteConfirm(int id)
     {
         var result = await _districtService.DeleteDistrict(id);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
             return RedirectToAction("");
@@ -117,13 +121,13 @@ public class DistrictController : Controller
         return await _districtService.GetAllDistrict();
     }
 
-    [HttpGet("GetSingleDistrictById")]
+    [HttpGet("GetSingleDistrictById/{id}")]
     public async Task<IActionResult> GetSingleDistrictById(int id)
     {
         return await _districtService.GetSingleDistrictById(id);
     }
 
-    [HttpGet("GetMultiDistrictByCondition")]
+    [HttpGet("GetMultiDistrictByCondition/{provinceId}")]
     public async Task<IActionResult> GetMultiDistrictByCondition(int provinceId)
     {
         return await _districtService.GetMultiDistrictByCondition(provinceId);

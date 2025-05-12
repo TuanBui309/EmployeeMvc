@@ -5,6 +5,7 @@ using Entity.Data.Request;
 
 namespace Entity.Controllers;
 
+[Route("[controller]")]
 public class JobController : Controller
 {
     private readonly IJobService _jobService;
@@ -19,51 +20,54 @@ public class JobController : Controller
         return View(result.Content);
     }
 
+    [HttpGet("Create")]
     public IActionResult Create() => View();
 
-    [HttpPost]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create(JobViewModel model)
     {
         var result = await _jobService.InsertJob(model);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         TempData["Error"] = result.Message;
         return View(model);
     }
 
+    [HttpGet("Details/{id}")]
     public async Task<IActionResult> Details(int id)
     {
         var job = await _jobService.GetSingleJob(id);
-        if (job.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (job.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         return View(job.Content);
     }
 
+    [HttpGet("Edit/{id}")]
     public async Task<IActionResult> Edit(int id)
     {
         var result = await _jobService.GetSingleJob(id);
-        if (result.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (result.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         return View(result.Content);
     }
 
-    [HttpPost]
+    [HttpPost("Edit")]
     public async Task<IActionResult> Edit(JobViewModel model)
     {
         var result = await _jobService.UpdateJob(model);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         TempData["Error"] = result.Message;
         return View(model);
@@ -73,13 +77,13 @@ public class JobController : Controller
     public async Task<IActionResult> DeleteConfirm(int id)
     {
         var result = await _jobService.DeleteJob(id);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         TempData["Error"] = result.Message;
-        return RedirectToAction("");
+        return RedirectToAction("Index");
     }
 
     [HttpGet("GetAllJob")]
@@ -88,7 +92,7 @@ public class JobController : Controller
         return await _jobService.GetAllJob();
     }
 
-    [HttpGet("GetJobById")]
+    [HttpGet("GetJobById/{id}")]
     public async Task<IActionResult> GetJobById(int id)
     {
         return await _jobService.GetSingleJobById(id);

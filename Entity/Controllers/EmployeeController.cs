@@ -8,10 +8,13 @@ using System.Diagnostics;
 using Entity.Data.Request;
 
 namespace Entity.Controllers;
+
+[Route("")]
 public class EmployeeController : Controller
 {
     private readonly IEmployeeService _employeeService;
     private readonly IValidator<EmployeeViewModel> _validator;
+
     public EmployeeController(IEmployeeService employeeService, IValidator<EmployeeViewModel> validations)
     {
         _employeeService = employeeService;
@@ -24,10 +27,11 @@ public class EmployeeController : Controller
         return PartialView(employees);
     }
 
+    [HttpGet("Details/{id}")]
     public async Task<ActionResult> Details(int id)
     {
         var employee = await _employeeService.GetEmployeeById(id);
-        if (employee.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (employee.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not Found";
             return RedirectToAction("");
@@ -35,10 +39,11 @@ public class EmployeeController : Controller
         return View(employee.Content);
     }
 
+    [HttpGet("Edit/{id}")]
     public async Task<ActionResult> Edit(int id)
     {
         var result = await _employeeService.GetSingleEmployee(id);
-        if (result.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (result.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not Found";
             return RedirectToAction("");
@@ -46,14 +51,14 @@ public class EmployeeController : Controller
         return View(result.Content);
     }
 
-    [HttpPost]
+    [HttpPost("Edit")]
     public async Task<IActionResult> Edit(EmployeeViewModel model)
     {
         ValidationResult result = await _validator.ValidateAsync(model);
         if (result.IsValid)
         {
             var employee = await _employeeService.UpdateEmployee(model);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
                 return RedirectToAction("");
@@ -68,17 +73,17 @@ public class EmployeeController : Controller
         return View(model);
     }
 
+    [HttpGet("Create")]
     public IActionResult Create() => View();
 
-    [HttpPost("Employee/Create")]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create(EmployeeViewModel model)
     {
-
         ValidationResult result = await _validator.ValidateAsync(model);
         if (result.IsValid)
         {
             var employee = await _employeeService.InsertEmployee(model);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
                 return RedirectToAction("");
@@ -97,7 +102,7 @@ public class EmployeeController : Controller
     public async Task<IActionResult> DeleteConfirm(int id)
     {
         var result = await _employeeService.DeleteEmployee(id);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
             return RedirectToAction("");
@@ -106,16 +111,17 @@ public class EmployeeController : Controller
         return RedirectToAction("");
     }
 
-    [HttpGet, ActionName("ExportToExcel")]
+    [HttpGet("ExportToExcel")]
     public async Task<IActionResult> ExportToExcel(string keyWord = "")
     {
         var export = await _employeeService.DownloadReport(keyWord);
         return File(export, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "employee.xlsx");
     }
 
+    [HttpGet("ImportData")]
     public IActionResult ImportData() => View();
 
-    [HttpPost]
+    [HttpPost("ImportData")]
     public async Task<IActionResult> ImportData(IFormFile file)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -180,10 +186,10 @@ public class EmployeeController : Controller
         stopwatch.Start();
         await Index();
         stopwatch.Stop();
-        return new ResponseEntity(StatusCodeConstants.NOT_FOUND, stopwatch.Elapsed, MessageConstants.MESSAGE_ERROR_404);
+        return new ResponseEntity(StatusCodeConstants.NotFound, stopwatch.Elapsed, MessageConstants.BadRequest);
     }
 
-    [HttpGet("GetEmployeeById")]
+    [HttpGet("GetEmployeeById/{id}")]
     public async Task<IActionResult> GetEmployeeById(int id)
     {
         return await _employeeService.GetEmployeeById(id);

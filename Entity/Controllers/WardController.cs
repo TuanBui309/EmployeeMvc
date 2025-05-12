@@ -7,6 +7,7 @@ using Entity.Data.Request;
 
 namespace Entity.Controllers;
 
+[Route("[controller]")]
 public class WardController : Controller
 {
     private readonly IWardService _wardService;
@@ -24,19 +25,20 @@ public class WardController : Controller
         return PartialView(result);
     }
 
+    [HttpGet("Create")]
     public IActionResult Create() => View();
 
-    [HttpPost]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create(WardViewModel model)
     {
         ValidationResult result = await _wardValidator.ValidateAsync(model);
         if (result.IsValid)
         {
             var employee = await _wardService.InsertWard(model);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
-                return RedirectToAction("");
+                return RedirectToAction("Index");
             }
             TempData["Error"] = employee.Message;
             return View();
@@ -51,29 +53,31 @@ public class WardController : Controller
         }
     }
 
+    [HttpGet("Details/{id}")]
     public async Task<IActionResult> Details(int id)
     {
         var ward = await _wardService.GetSingleWard(id);
-        if (ward.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (ward.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         return View(ward.Content);
     }
 
+    [HttpGet("Edit/{id}")]
     public async Task<IActionResult> Edit(int id)
     {
         var result = await _wardService.GetSingleWard(id);
-        if (result.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (result.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         return View(result.Content);
     }
 
-    [HttpPost]
+    [HttpPost("Edit")]
     public async Task<IActionResult> Edit(WardViewModel model)
     {
         ValidationResult result = await _wardValidator.ValidateAsync(model);
@@ -83,7 +87,7 @@ public class WardController : Controller
             if (employee.StatusCode == 200)
             {
                 TempData["Success"] = employee.Message;
-                return RedirectToAction("");
+                return RedirectToAction("Index");
             }
             TempData["Error"] = employee.Message;
             return View(model);
@@ -105,10 +109,10 @@ public class WardController : Controller
         if (result.StatusCode == 200)
         {
             TempData["Success"] = result.Message;
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         TempData["Error"] = result.Message;
-        return RedirectToAction("");
+        return RedirectToAction("Index");
     }
 
     [HttpGet("GetAllWard")]
@@ -117,13 +121,13 @@ public class WardController : Controller
         return await _wardService.GetAllWard();
     }
 
-    [HttpGet("GetSingleWardById")]
+    [HttpGet("GetSingleWardById/{id}")]
     public async Task<IActionResult> GetSingleWardById(int id)
     {
         return await _wardService.GetSingleWardById(id);
     }
 
-    [HttpGet("GetMultiWardByCondition")]
+    [HttpGet("GetMultiWardByCondition/{districtId}")]
     public async Task<IActionResult> GetMultiWardByCondition(int districtId)
     {
         return await _wardService.GetMultiWardByCondition(districtId);

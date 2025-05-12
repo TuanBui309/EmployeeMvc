@@ -5,6 +5,7 @@ using Entity.Data.Request;
 
 namespace Entity.Controllers;
 
+[Route("[controller]")]
 public class NationController : Controller
 {
     private readonly INationService _nationService;
@@ -20,51 +21,54 @@ public class NationController : Controller
         return View(result.Content);
     }
 
+    [HttpGet("Create")]
     public IActionResult Create() => View();
 
-    [HttpPost]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create(NationViewModel model)
     {
         var result = await _nationService.InsertNation(model);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         TempData["Error"] = result.Message;
         return View(model);
     }
 
+    [HttpGet("Details/{id}")]
     public async Task<IActionResult> Details(int id)
     {
         var nation = await _nationService.GetSingleNation(id);
-        if (nation.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (nation.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         return View(nation.Content);
     }
 
+    [HttpGet("Edit/{id}")]
     public async Task<IActionResult> Edit(int id)
     {
         var result = await _nationService.GetSingleNation(id);
-        if (result.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (result.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         return View(result.Content);
     }
 
-    [HttpPost]
+    [HttpPost("Edit")]
     public async Task<IActionResult> Edit(NationViewModel model)
     {
         var result = await _nationService.UpdateNation(model);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         TempData["Error"] = result.Message;
         return View(model);
@@ -74,13 +78,13 @@ public class NationController : Controller
     public async Task<IActionResult> DeleteConfirm(int id)
     {
         var result = await _nationService.DeleteNation(id);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
         TempData["Error"] = result.Message;
-        return RedirectToAction("");
+        return RedirectToAction("Index");
     }
 
     [HttpGet("GetAllNation")]
@@ -89,7 +93,7 @@ public class NationController : Controller
         return await _nationService.GetAllNation();
     }
 
-    [HttpGet("GetNationById")]
+    [HttpGet("GetNationById/{id}")]
     public async Task<IActionResult> GetNationById(int id)
     {
         return await _nationService.GetSingleNationById(id);

@@ -16,9 +16,9 @@ public class DegreeValidator : AbstractValidator<DegreeViewModel>
 		RuleFor(x => x.EmployeeId).NotEmpty().WithMessage("EmloyeeId is required")
 			.MustAsync((model, EmployeeId, CancellationToken) => IsValidEmployeeId(model)).WithMessage("This person has a maximum of 3 unexpired degrees!");
 		RuleFor(x => x.DegreeName).NotEmpty().WithMessage("DegreeName is required")
-			.MaximumLength(Validations.MaxLenghtNameDegree).WithMessage("Name can not over 250 characters");
+			.MaximumLength(Validations.NameDegreeMaxLength).WithMessage("Name can not over 250 characters");
 		RuleFor(x => x.IssuedBy).NotEmpty().WithMessage("IssuedBy is required")
-			.MaximumLength(Validations.MaxLeghtIssuedBy).WithMessage("IssuedBy can not over 550 characters");
+			.MaximumLength(Validations.IssuedByMaxLength).WithMessage("IssuedBy can not over 550 characters");
 		RuleFor(x => x.DateRange).NotEmpty().WithMessage("DateRange is required")
 			.Must(FuncUtilities.BeAValidDate).WithMessage("Invalid date (MM/dd/yyyy)!")
 			.Must((model, DateRage, CancellationToken) => IsValidDate(model)).WithMessage("The issue date cannot be greater than the expiration date !");

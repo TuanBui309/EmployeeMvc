@@ -6,26 +6,30 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Entity.Controllers;
+
+[Route("[controller]")]
 public class CityController : Controller
 {
     private readonly ICityService _cityService;
     private readonly IValidator<CityViewModel> _validator;
+
     public CityController(ICityService cityService, IValidator<CityViewModel> validator)
     {
         _cityService = cityService;
         _validator = validator;
     }
 
-    public async Task<IActionResult> Index(String keyWord="",int? pageNumber=null)
+    public async Task<IActionResult> Index(string keyWord = "", int? pageNumber = null)
     {
-        var result = await _cityService.GetListCity(keyWord,pageNumber); 
+        var result = await _cityService.GetListCity(keyWord, pageNumber);
         return View(result);
     }
 
+    [HttpGet("{id}")]
     public async Task<IActionResult> Details(int id)
     {
         var city = await _cityService.GetSingleCity(id);
-        if (city.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (city.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
             return RedirectToAction("");
@@ -33,16 +37,17 @@ public class CityController : Controller
         return View(city.Content);
     }
 
+    [HttpGet("Create")]
     public IActionResult Create() => View();
 
-    [HttpPost]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create(CityViewModel city)
     {
         ValidationResult result = await _validator.ValidateAsync(city);
         if (result.IsValid)
         {
             var employee = await _cityService.InsertCity(city);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
                 return RedirectToAction("");
@@ -60,10 +65,11 @@ public class CityController : Controller
         }
     }
 
+    [HttpGet("Edit/{id}")]
     public async Task<IActionResult> Edit(int id)
     {
         var result = await _cityService.GetSingleCity(id);
-        if (result.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (result.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
             return RedirectToAction("");
@@ -71,14 +77,14 @@ public class CityController : Controller
         return View(result.Content);
     }
 
-    [HttpPost]
+    [HttpPost("Edit/{id}")]
     public async Task<IActionResult> Edit(CityViewModel model, int id)
     {
         ValidationResult result = await _validator.ValidateAsync(model);
         if (result.IsValid)
         {
             var city = await _cityService.UpdateCity(id, model);
-            if (city.StatusCode == StatusCodeConstants.OK)
+            if (city.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = city.Message;
                 return RedirectToAction("");
@@ -100,7 +106,7 @@ public class CityController : Controller
     public async Task<IActionResult> DeleteConfirm(int id)
     {
         var result = await _cityService.DeleteCity(id);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
             return RedirectToAction("");
@@ -116,7 +122,7 @@ public class CityController : Controller
         return result;
     }
 
-    [HttpGet("GetCityById")]
+    [HttpGet("GetCityById/{CityId}")]
     public async Task<IActionResult> GetCityById(int CityId)
     {
         return await _cityService.GetSingleCityById(CityId);

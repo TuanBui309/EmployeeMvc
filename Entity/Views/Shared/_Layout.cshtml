@@ -46,7 +46,7 @@
         function fnListCity() {
             selectDistrict.empty();
             $.ajax({
-                url: "/GetAllCity",
+                url: "/City/GetAllCity",
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -69,7 +69,7 @@
         function fnListDistrict(id) {
             selectDistrict.empty();
             $.ajax({
-                url: `/GetMultiDistrictByCondition?proviceId=${id}`,
+                url: `/District/GetMultiDistrictByCondition/${id}`,
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -79,7 +79,7 @@
                     });
                     selectDistrict.change(function () {
                         fnListWard($(this).val());
-                        data.empty();
+                     
                     })
                     console.log("district",data.content)
                 },
@@ -92,7 +92,7 @@
         function fnListWard(id) {
             selectWard.empty();
             $.ajax({
-                url: `/GetMultiWardByCondition?districtId=${id}`,
+                url: `/ward/GetMultiWardByCondition/${id}`,
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -109,7 +109,7 @@
         }
         function fnListJob() {
             $.ajax({
-                url: "/GetAllJob",
+                url: "/job/GetAllJob",
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -126,7 +126,7 @@
         }
         function fnListNation() {
             $.ajax({
-                url: "/GetAllNation",
+                url: "/nation/GetAllNation",
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -158,7 +158,7 @@
         }
         function fnSingleDistrict() {
             $.ajax({
-                url: "/GetAllDistrict",
+                url: "/district/GetAllDistrict",
                 method: "GET",
                 dataType: "json",
                 success: function (data) {

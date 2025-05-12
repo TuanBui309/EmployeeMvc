@@ -28,7 +28,7 @@ public class DegreeController : Controller
     public async Task<IActionResult> Details(int id)
     {
         var result = await _degreeService.GetSingleDegree(id);
-        if (result.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (result.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
             return RedirectToAction("");
@@ -45,7 +45,7 @@ public class DegreeController : Controller
         if (result.IsValid)
         {
             var employee = await _degreeService.InsertDegree(model);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
                 return RedirectToAction("");
@@ -66,7 +66,7 @@ public class DegreeController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var results = await _degreeService.GetSingleDegree(id);
-        if (results.StatusCode == StatusCodeConstants.NOT_FOUND)
+        if (results.StatusCode == StatusCodeConstants.NotFound)
         {
             TempData["Error"] = "Not found";
             return RedirectToAction("");
@@ -82,7 +82,7 @@ public class DegreeController : Controller
         if (validationResult.IsValid)
         {
             var employee = await _degreeService.UpdateDegree(model);
-            if (employee.StatusCode == StatusCodeConstants.OK)
+            if (employee.StatusCode == StatusCodeConstants.Ok)
             {
                 TempData["Success"] = employee.Message;
                 return RedirectToAction("");
@@ -104,7 +104,7 @@ public class DegreeController : Controller
     public async Task<IActionResult> DeleteConfirm(int id)
     {
         var result = await _degreeService.DeleteDegree(id);
-        if (result.StatusCode == StatusCodeConstants.OK)
+        if (result.StatusCode == StatusCodeConstants.Ok)
         {
             TempData["Success"] = result.Message;
             return RedirectToAction("");
