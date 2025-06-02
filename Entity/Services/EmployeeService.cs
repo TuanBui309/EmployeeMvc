@@ -1,11 +1,11 @@
-﻿using Entity.Constants;
+﻿using Entity.Common;
+using Entity.Constants;
 using Entity.Data.Entity;
 using Entity.Data.Request;
 using Entity.Repository.Repositories;
 using Entity.Services.Interface;
 using Entity.Util.Utilities;
 using OfficeOpenXml;
-using System.Diagnostics;
 
 namespace Entity.Services;
 
@@ -162,15 +162,6 @@ public class EmployeeService : IEmployeeService
         {
             return new ResponseEntity(StatusCodeConstants.BadRequest, ex.Message, MessageConstants.InsertFailure);
         }
-    }
-
-    public async Task<ResponseEntity> GetTime()
-    {
-        Stopwatch stopwatch = new();
-        stopwatch.Start();
-        await GetListEmployee();
-        stopwatch.Stop();
-        return new ResponseEntity(StatusCodeConstants.NotFound, stopwatch.Elapsed, MessageConstants.NotFound);
     }
 
     public async Task<ResponseEntity> DeleteEmployee(int id)

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Diagnostics;
 using Entity.Data.Request;
+using Entity.Common;
 
 namespace Entity.Controllers;
 
@@ -177,16 +178,6 @@ public class EmployeeController : Controller
     public async Task<IActionResult> GetAllEmployee(string keyWord = "")
     {
         return await _employeeService.GetAllEmployee(keyWord);
-    }
-
-    [HttpGet("GetTime")]
-    public async Task<IActionResult> GetTime()
-    {
-        Stopwatch stopwatch = new();
-        stopwatch.Start();
-        await Index();
-        stopwatch.Stop();
-        return new ResponseEntity(StatusCodeConstants.NotFound, stopwatch.Elapsed, MessageConstants.BadRequest);
     }
 
     [HttpGet("GetEmployeeById/{id}")]

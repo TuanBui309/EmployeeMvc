@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace Entity.Constants;
+namespace Entity.Common;
 
 public class ResponseEntity : IActionResult
 {
@@ -22,7 +22,7 @@ public class ResponseEntity : IActionResult
         DateTime = DateTime.Now;
     }
 
-    public async System.Threading.Tasks.Task ExecuteResultAsync(ActionContext context)
+    public async Task ExecuteResultAsync(ActionContext context)
     {
         context.HttpContext.Response.StatusCode = StatusCode;
         await new ObjectResult(this).ExecuteResultAsync(context);

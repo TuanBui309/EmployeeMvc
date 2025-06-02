@@ -1,4 +1,4 @@
-﻿using Entity.Constants;
+﻿using Entity.Common;
 using Entity.Data.Entity;
 using Entity.Data.Request;
 

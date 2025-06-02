@@ -1,4 +1,4 @@
-﻿using Entity.Constants;
+﻿using Entity.Common;
 using Entity.Data.Request;
 
 namespace Entity.Services.Interface;
@@ -14,5 +14,4 @@ public interface IEmployeeService
 	List<EmployeeViewModel> ReadEmployeeFromExcel(string fullPath);
 	Task<IEnumerable<EmployeeViewExport>> GetListEmployee(string keyWord = "", int? pageNumber = null);
 	Task<ResponseEntity> GetSingleEmployee(int id);
-	Task<ResponseEntity> GetTime();
 }
